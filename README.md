@@ -10,11 +10,12 @@ This program is applicable for parameter determination using single-well observa
 - **拐点法**：用 Hantush-Jacob 曲线拐点性质求参，可以求出 T、S、B。
 - **Jacab公式最小二乘法**：根据 Jacob 公式用最小二乘法拟合，可以求出 T、S。
 
-运行命令
+运行:
 
 ```
 streamlit.exe run main_app.py
 ```
+
 >
 > **说明：**
 >
