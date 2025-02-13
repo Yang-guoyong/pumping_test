@@ -1,7 +1,7 @@
 # Pumping Test
 This program is applicable for parameter determination using single-well observation data from pumping tests.
 
-![Pumping Test](./images/tools.jpg)
+![Pumping Test](./images/tools-800x600.jpg)
 
 本应用提供以下功能：
 
