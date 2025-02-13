@@ -39,5 +39,5 @@ def home_page():
     >
     """)
 
-    img = os.path.join(os.path.dirname(__file__), "tools-800x600.jpg")
+    img = os.path.join(os.path.dirname(__file__), "tools800x600.jpg")
     st.image(img)
