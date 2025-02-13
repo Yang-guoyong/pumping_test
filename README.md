@@ -1,6 +1,8 @@
 # Pumping Test
 This program is applicable for parameter determination using single-well observation data from pumping tests.
 
+![Pumping Test](./images/tools.jpg)
+
 本应用提供以下功能：
 
 - **配线法**：用 Theis 或 Hantush-Jacob 公式配线，可以求出 T、S。
