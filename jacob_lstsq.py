@@ -131,7 +131,7 @@ def jacob_lstsq():
     fig, ax = plt.subplots(figsize=(6, 4))
     ax.set(xscale="log", xlabel=r'$\lg t$', ylabel=r'$s$')
     ax.grid(True, which="major", linestyle="-", linewidth=0.5)
-    ax.grid(True, which="minor", linestyle="-", linewidth=0.2)
+    ax.grid(True, which="minor", linestyle="--", linewidth=0.2)
     
     ax.plot(t, s, "r*", label="观测值")
     
