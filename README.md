@@ -13,7 +13,7 @@ This program is applicable for parameter determination using single-well observa
 运行:
 
 ```
-streamlit.exe run main_app.py
+streamlit run main_app.py
 ```
 
 >
