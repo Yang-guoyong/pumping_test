@@ -3,7 +3,7 @@ Jacob 公式最小二乘法求参程序
 
 MIT License
 
-版权所有 (c) 2025 yanggy1010 (yanggy1010@cumt.edu.cn)
+版权所有 (c) 2025 yanggy (yanggy@cumt.edu.cn)
 
 特此免费授予任何获得本软件及相关文档文件（以下简称“软件”）副本的人，不受限制地处理本软件的权限，包括
 但不限于使用、复制、修改、合并、发布、分发、再许可和/或出售本软件的副本，并允许接收本软件的人这样做，
@@ -157,3 +157,4 @@ def jacob_lstsq():
 # 运行程序
 if __name__ == "__main__":
     jacob_lstsq()
+
