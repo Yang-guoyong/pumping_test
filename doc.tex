@@ -1,0 +1,1285 @@
+\documentclass[11pt]{ctexart}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    
+\title{基于 Streamlit 的水文地质求参程序}
+    
+\author{\href{mailto:yanggy1010@126.com}{杨国勇}\\
+水文与水资源系，资源与地球科学学院\\
+中国矿业大学}
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    主程序 (main\_app.py)
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} main\PYZus{}app.py}
+
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{抽水试验单孔观测数据求参主程序}
+
+\PY{l+s+sd}{MIT License}
+
+\PY{l+s+sd}{版权所有 (c) 2025 yanggy (yanggy@cumt.edu.cn)}
+
+\PY{l+s+sd}{特此免费授予任何获得本软件及相关文档文件（以下简称“软件”）副本的人，不受限制地}
+\PY{l+s+sd}{处理本软件的权限，包括但不限于使用、复制、修改、合并、发布、分发、再许可和 /或}
+\PY{l+s+sd}{出售本软件的副本，并允许接收本软件的人这样做，但须符合以下条件：}
+
+\PY{l+s+sd}{上述版权声明和本许可声明应包含在本软件的所有副本或实质性部分中。}
+
+\PY{l+s+sd}{本软件按“原样”提供，不提供任何形式的明示或暗示担保，包括但不限于适销性、特定用途}
+\PY{l+s+sd}{适用性和非侵权性的担保。在任何情况下，作者或版权持有人均不对任何索赔、损害或其他}
+\PY{l+s+sd}{责任负责，无论是在合同、侵权或其他行为中产生的，还是与本软件或本软件的使用或其他}
+\PY{l+s+sd}{交易有关的。}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{streamlit}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{st}
+
+\PY{c+c1}{\PYZsh{} 设置页面配置}
+\PY{n}{st}\PY{o}{.}\PY{n}{set\PYZus{}page\PYZus{}config}\PY{p}{(}\PY{n}{page\PYZus{}title}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{抽水试验单孔数据求参}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 导入外部模块}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{home\PYZus{}page}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{home\PYZus{}page}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{hantush\PYZus{}jacob\PYZus{}fit}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{hantush\PYZus{}jacob\PYZus{}fit}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{inflection}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{inflection}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{jacob\PYZus{}line}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{jacob\PYZus{}line}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{jacob\PYZus{}lstsq}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{jacob\PYZus{}lstsq}
+
+\PY{c+c1}{\PYZsh{} 页面导航}
+\PY{n}{pages} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{程序首页}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{home\PYZus{}page}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{配线法}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{hantush\PYZus{}jacob\PYZus{}fit}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{直线图解法}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{jacob\PYZus{}line}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{拐点法}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{inflection}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Jacab公式最小二乘法}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{jacob\PYZus{}lstsq}\PY{p}{,}
+\PY{p}{\PYZcb{}}
+
+\PY{c+c1}{\PYZsh{} 初始化当前页面状态}
+\PY{k}{if} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{current\PYZus{}page}\PY{l+s+s2}{\PYZdq{}} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{st}\PY{o}{.}\PY{n}{session\PYZus{}state}\PY{p}{:}
+    \PY{n}{st}\PY{o}{.}\PY{n}{session\PYZus{}state}\PY{o}{.}\PY{n}{current\PYZus{}page} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{程序首页}\PY{l+s+s2}{\PYZdq{}}
+
+\PY{c+c1}{\PYZsh{} 页面选择器}
+\PY{n}{selected\PYZus{}page} \PY{o}{=} \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{selectbox}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{选择求参方法}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{list}\PY{p}{(}\PY{n}{pages}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\PY{k}{if} \PY{n}{selected\PYZus{}page} \PY{o}{!=} \PY{n}{st}\PY{o}{.}\PY{n}{session\PYZus{}state}\PY{o}{.}\PY{n}{current\PYZus{}page}\PY{p}{:}
+    \PY{n}{st}\PY{o}{.}\PY{n}{session\PYZus{}state}\PY{o}{.}\PY{n}{current\PYZus{}page} \PY{o}{=} \PY{n}{selected\PYZus{}page}
+    \PY{n}{st}\PY{o}{.}\PY{n}{rerun}\PY{p}{(}\PY{p}{)}  \PY{c+c1}{\PYZsh{} 重新运行以加载新页面}
+
+\PY{c+c1}{\PYZsh{} 显示当前页面}
+\PY{n}{pages}\PY{p}{[}\PY{n}{st}\PY{o}{.}\PY{n}{session\PYZus{}state}\PY{o}{.}\PY{n}{current\PYZus{}page}\PY{p}{]}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    程序首页 (home\_page.py)
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} home\PYZus{}page.py}
+
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{抽水试验单孔数据求参程序首页}
+
+\PY{l+s+sd}{MIT License}
+
+\PY{l+s+sd}{版权所有 (c) 2025 yanggy (yanggy@cumt.edu.cn)}
+
+\PY{l+s+sd}{特此免费授予任何获得本软件及相关文档文件（以下简称“软件”）副本的人，不受限制地}
+\PY{l+s+sd}{处理本软件的权限，包括但不限于使用、复制、修改、合并、发布、分发、再许可和 /或}
+\PY{l+s+sd}{出售本软件的副本，并允许接收本软件的人这样做，但须符合以下条件：}
+
+\PY{l+s+sd}{上述版权声明和本许可声明应包含在本软件的所有副本或实质性部分中。}
+
+\PY{l+s+sd}{本软件按“原样”提供，不提供任何形式的明示或暗示担保，包括但不限于适销性、特定用途}
+\PY{l+s+sd}{适用性和非侵权性的担保。在任何情况下，作者或版权持有人均不对任何索赔、损害或其他}
+\PY{l+s+sd}{责任负责，无论是在合同、侵权或其他行为中产生的，还是与本软件或本软件的使用或其他}
+\PY{l+s+sd}{交易有关的。}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{streamlit}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{st}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{os}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{home\PYZus{}page}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{st}\PY{o}{.}\PY{n}{markdown}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZsh{}\PYZsh{}\PYZsh{} 抽水试验单孔观测数据求参方法}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{st}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{欢迎使用抽水试验求参分析工具, 左侧选项卡可以选择不同方法。}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{st}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{本应用提供以下功能：}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{st}\PY{o}{.}\PY{n}{markdown}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+s2}{    \PYZhy{} **配线法**：用 Theis 或 Hantush\PYZhy{}Jacob 公式配线，可以求出 T、S。}
+\PY{l+s+s2}{    \PYZhy{} **直线图解法**：用 Jacob 公式配线，可以求出 T、S。}
+\PY{l+s+s2}{    \PYZhy{} **拐点法**：用 Hantush\PYZhy{}Jacob 曲线拐点性质求参，可以求出 T、S、B。}
+\PY{l+s+s2}{    \PYZhy{} **Jacab公式最小二乘法**：根据 Jacob 公式用最小二乘法拟合，可以求出 T、S。}
+\PY{l+s+s2}{    \PYZgt{}}
+\PY{l+s+s2}{    \PYZgt{} **说明：**}
+\PY{l+s+s2}{    \PYZgt{}}
+\PY{l+s+s2}{    \PYZgt{} \PYZhy{} 本程序适用于抽水试验的单孔观测数据求参。}
+\PY{l+s+s2}{    \PYZgt{} \PYZhy{} 数据为 csv 格式, 需包含 4 列数据: 时间(min), 降深(m), 抽水量(m³/min), 观测距离(m); }
+\PY{l+s+s2}{    \PYZgt{} \PYZhy{} 可以下载预览中的数据来了解该文件格式。}
+\PY{l+s+s2}{    \PYZgt{} \PYZhy{} 可以生成 docx 格式文件下载。}
+\PY{l+s+s2}{    \PYZgt{}}
+\PY{l+s+s2}{    }\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{img} \PY{o}{=} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{dirname}\PY{p}{(}\PY{n+nv+vm}{\PYZus{}\PYZus{}file\PYZus{}\PYZus{}}\PY{p}{)}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{images}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{tools\PYZhy{}800x600.jpg}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{st}\PY{o}{.}\PY{n}{image}\PY{p}{(}\PY{n}{img}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Theis 与 Hantush-Jacob 配线法 (hantush\_jacob\_fit.py)
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} hantush\PYZus{}jacob\PYZus{}fit.py}
+
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{Theis 与 Hantush\PYZhy{}Jacob 配线法求参程序}
+
+\PY{l+s+sd}{MIT License}
+
+\PY{l+s+sd}{版权所有 (c) 2025 yanggy (yanggy@cumt.edu.cn)}
+
+\PY{l+s+sd}{特此免费授予任何获得本软件及相关文档文件（以下简称“软件”）副本的人，不受限制地}
+\PY{l+s+sd}{处理本软件的权限，包括但不限于使用、复制、修改、合并、发布、分发、再许可和 /或}
+\PY{l+s+sd}{出售本软件的副本，并允许接收本软件的人这样做，但须符合以下条件：}
+
+\PY{l+s+sd}{上述版权声明和本许可声明应包含在本软件的所有副本或实质性部分中。}
+
+\PY{l+s+sd}{本软件按“原样”提供，不提供任何形式的明示或暗示担保，包括但不限于适销性、特定用途}
+\PY{l+s+sd}{适用性和非侵权性的担保。在任何情况下，作者或版权持有人均不对任何索赔、损害或其他}
+\PY{l+s+sd}{责任负责，无论是在合同、侵权或其他行为中产生的，还是与本软件或本软件的使用或其他}
+\PY{l+s+sd}{交易有关的。}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{font\PYZus{}manager}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{pandas}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{pd}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{streamlit}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{st}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{docx}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{Document}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{docx}\PY{n+nn}{.}\PY{n+nn}{shared}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{Inches}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{io}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{BytesIO}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{os}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{itertools}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{zip\PYZus{}longest}
+
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{special}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{expn}\PY{p}{,} \PY{n}{k0}\PY{p}{,} \PY{n}{exp1} \PY{k}{as} \PY{n}{theis\PYZus{}well}
+
+\PY{c+c1}{\PYZsh{} 配置字体和全局参数}
+\PY{n}{py\PYZus{}path} \PY{o}{=} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{dirname}\PY{p}{(}\PY{n+nv+vm}{\PYZus{}\PYZus{}file\PYZus{}\PYZus{}}\PY{p}{)}
+\PY{n}{font\PYZus{}mapping} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{simkai.ttf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{KaiTi}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} 
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{simhei.ttf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{simhei}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}         
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{simfang.ttf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FangSong}\PY{l+s+s2}{\PYZdq{}}  
+\PY{p}{\PYZcb{}}
+\PY{n}{loaded\PYZus{}font\PYZus{}families} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Times New Roman}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{k}{for} \PY{n}{font\PYZus{}file}\PY{p}{,} \PY{n}{font\PYZus{}family} \PY{o+ow}{in} \PY{n}{font\PYZus{}mapping}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{font\PYZus{}path} \PY{o}{=} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{py\PYZus{}path}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{fonts}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{font\PYZus{}file}\PY{p}{)}
+    \PY{k}{if} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{exists}\PY{p}{(}\PY{n}{font\PYZus{}path}\PY{p}{)}\PY{p}{:}
+        \PY{n}{font\PYZus{}manager}\PY{o}{.}\PY{n}{fontManager}\PY{o}{.}\PY{n}{addfont}\PY{p}{(}\PY{n}{font\PYZus{}path}\PY{p}{)}
+        \PY{n}{loaded\PYZus{}font\PYZus{}families}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{font\PYZus{}family}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} break}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{font.family}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{loaded\PYZus{}font\PYZus{}families}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{axes.unicode\PYZus{}minus}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{k+kc}{False}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xtick.direction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{in}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ytick.direction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{in}\PY{l+s+s1}{\PYZsq{}}
+
+\PY{c+c1}{\PYZsh{} Hantush\PYZhy{}Jacob 井函数计算}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{hantush\PYZus{}jacob\PYZus{}well}\PY{p}{(}\PY{n}{u}\PY{p}{,} \PY{n}{beta}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}计算 Hantush\PYZhy{}Jacob 井函数。\PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{k}{def}\PY{+w}{ }\PY{n+nf}{wellfunc}\PY{p}{(}\PY{n}{u}\PY{p}{,} \PY{n}{beta}\PY{p}{)}\PY{p}{:}
+        \PY{k}{if} \PY{n}{u} \PY{o}{\PYZlt{}} \PY{l+m+mi}{0}\PY{p}{:}
+            \PY{k}{raise} \PY{n+ne}{ValueError}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Negative values for }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{u}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{ are not allowed.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{k}{if} \PY{n}{u} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:}
+            \PY{k}{return} \PY{l+m+mf}{2.0} \PY{o}{*} \PY{n}{k0}\PY{p}{(}\PY{n}{beta}\PY{p}{)}
+        \PY{n}{r}\PY{p}{,} \PY{n}{b}\PY{p}{,} \PY{n}{t} \PY{o}{=} \PY{l+m+mf}{1.0}\PY{p}{,} \PY{l+m+mi}{2} \PY{o}{*} \PY{n}{u}\PY{p}{,} \PY{n}{beta}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{/} \PY{p}{(}\PY{l+m+mi}{4} \PY{o}{*} \PY{n}{u}\PY{p}{)}
+        \PY{n}{W}\PY{p}{,} \PY{n}{n} \PY{o}{=} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mi}{0}
+        \PY{k}{if} \PY{n}{beta} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{b}\PY{p}{:}
+            \PY{n}{term} \PY{o}{=} \PY{n}{r} \PY{o}{*} \PY{n}{expn}\PY{p}{(}\PY{n}{n} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{u}\PY{p}{)}
+            \PY{k}{while} \PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{term}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mf}{1e\PYZhy{}10}\PY{p}{:}
+                \PY{n}{W} \PY{o}{+}\PY{o}{=} \PY{n}{term}
+                \PY{n}{n} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+                \PY{n}{r} \PY{o}{*}\PY{o}{=} \PY{o}{\PYZhy{}}\PY{n}{t} \PY{o}{/} \PY{n}{n}
+                \PY{n}{term} \PY{o}{=} \PY{n}{r} \PY{o}{*} \PY{n}{expn}\PY{p}{(}\PY{n}{n} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{u}\PY{p}{)}
+        \PY{k}{else}\PY{p}{:}
+            \PY{n}{W} \PY{o}{=} \PY{l+m+mf}{2.0} \PY{o}{*} \PY{n}{k0}\PY{p}{(}\PY{n}{beta}\PY{p}{)}
+            \PY{n}{term} \PY{o}{=} \PY{n}{r} \PY{o}{*} \PY{n}{expn}\PY{p}{(}\PY{n}{n} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{t}\PY{p}{)}
+            \PY{k}{while} \PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{term}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mf}{1e\PYZhy{}10}\PY{p}{:}
+                \PY{n}{W} \PY{o}{\PYZhy{}}\PY{o}{=} \PY{n}{term}
+                \PY{n}{n} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+                \PY{n}{r} \PY{o}{*}\PY{o}{=} \PY{o}{\PYZhy{}}\PY{n}{u} \PY{o}{/} \PY{n}{n}
+                \PY{n}{term} \PY{o}{=} \PY{n}{r} \PY{o}{*} \PY{n}{expn}\PY{p}{(}\PY{n}{n} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{t}\PY{p}{)}
+        \PY{k}{return} \PY{n}{W}
+    \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{vectorize}\PY{p}{(}\PY{n}{wellfunc}\PY{p}{)}\PY{p}{(}\PY{n}{u}\PY{p}{,} \PY{n}{beta}\PY{p}{)}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{calc\PYZus{}init\PYZus{}params}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{s}\PY{p}{,} \PY{n}{Q}\PY{p}{,} \PY{n}{r}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}按 Jacob 公式计算参数。\PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{idx} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{argmin}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{t} \PY{o}{/} \PY{n}{t}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{l+m+mf}{0.5}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}
+    \PY{n}{slope} \PY{o}{=} \PY{p}{(}\PY{n}{s}\PY{p}{[}\PY{n}{idx}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{s}\PY{p}{[}\PY{n}{idx} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{log10}\PY{p}{(}\PY{n}{t}\PY{p}{[}\PY{n}{idx}\PY{p}{]} \PY{o}{/} \PY{n}{t}\PY{p}{[}\PY{n}{idx} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+    \PY{n}{T} \PY{o}{=} \PY{l+m+mf}{0.183} \PY{o}{*} \PY{n}{Q} \PY{o}{/} \PY{n}{slope}
+    \PY{n}{t0} \PY{o}{=} \PY{n}{t}\PY{p}{[}\PY{n}{idx}\PY{p}{]} \PY{o}{*} \PY{l+m+mi}{10}\PY{o}{*}\PY{o}{*}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{s}\PY{p}{[}\PY{n}{idx}\PY{p}{]} \PY{o}{/} \PY{n}{slope}\PY{p}{)}
+    \PY{n}{S} \PY{o}{=} \PY{l+m+mf}{2.25} \PY{o}{*} \PY{n}{T} \PY{o}{*} \PY{n}{t0} \PY{o}{/} \PY{n}{r}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}
+    \PY{n}{dx} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{log10}\PY{p}{(}\PY{l+m+mi}{4} \PY{o}{*} \PY{n}{T} \PY{o}{/} \PY{p}{(}\PY{n}{S} \PY{o}{*} \PY{n}{r}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+    \PY{n}{dy} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{log10}\PY{p}{(}\PY{l+m+mi}{4} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{pi} \PY{o}{*} \PY{n}{T} \PY{o}{/} \PY{n}{Q}\PY{p}{)}
+    \PY{k}{return} \PY{n}{T}\PY{p}{,} \PY{n}{S}\PY{p}{,} \PY{n}{dx}\PY{p}{,} \PY{n}{dy}
+
+\PY{c+c1}{\PYZsh{} 生成Word文档}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{create\PYZus{}report}\PY{p}{(}\PY{n}{T}\PY{p}{,} \PY{n}{S}\PY{p}{,} \PY{n}{B}\PY{p}{,} \PY{n}{fig}\PY{p}{,} \PY{n}{filename}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{report.docx}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}生成Word文档\PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{doc} \PY{o}{=} \PY{n}{Document}\PY{p}{(}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{add\PYZus{}heading}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{配线法求参}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{level}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{add\PYZus{}paragraph}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{导水系数 T = }\PY{l+s+si}{\PYZob{}}\PY{n}{T}\PY{l+s+si}{:}\PY{l+s+s2}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ m²/min}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{add\PYZus{}paragraph}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{贮水系数 S = }\PY{l+s+si}{\PYZob{}}\PY{n}{S}\PY{l+s+si}{:}\PY{l+s+s2}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{add\PYZus{}paragraph}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{越流因素 B = }\PY{l+s+si}{\PYZob{}}\PY{n}{B}\PY{l+s+si}{:}\PY{l+s+s2}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ m}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{img\PYZus{}buffer} \PY{o}{=} \PY{n}{BytesIO}\PY{p}{(}\PY{p}{)}
+    \PY{n}{fig}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{n}{img\PYZus{}buffer}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{300}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{png}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{bbox\PYZus{}inches}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{tight}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{img\PYZus{}buffer}\PY{o}{.}\PY{n}{seek}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{add\PYZus{}picture}\PY{p}{(}\PY{n}{img\PYZus{}buffer}\PY{p}{,} \PY{n}{width}\PY{o}{=}\PY{n}{Inches}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+    
+    \PY{n}{report\PYZus{}buffer} \PY{o}{=} \PY{n}{BytesIO}\PY{p}{(}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{save}\PY{p}{(}\PY{n}{report\PYZus{}buffer}\PY{p}{)}
+    \PY{n}{report\PYZus{}buffer}\PY{o}{.}\PY{n}{seek}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+    \PY{k}{return} \PY{n}{report\PYZus{}buffer}
+
+\PY{c+c1}{\PYZsh{} 主程序}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{hantush\PYZus{}jacob\PYZus{}fit}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{st}\PY{o}{.}\PY{n}{markdown}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZsh{}\PYZsh{}\PYZsh{} Theis 与 Hantush\PYZhy{}Jacob 配线法}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{t} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{9}\PY{p}{,} \PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{30}\PY{p}{,} \PY{l+m+mi}{40}\PY{p}{,} \PY{l+m+mi}{50}\PY{p}{,} \PY{l+m+mi}{60}\PY{p}{,} 
+                  \PY{l+m+mi}{90}\PY{p}{,} \PY{l+m+mi}{120}\PY{p}{,} \PY{l+m+mi}{150}\PY{p}{,} \PY{l+m+mi}{360}\PY{p}{,} \PY{l+m+mi}{550}\PY{p}{,} \PY{l+m+mi}{720}\PY{p}{]}\PY{p}{)}  \PY{c+c1}{\PYZsh{} min}
+    \PY{n}{s} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{2.5}\PY{p}{,} \PY{l+m+mf}{3.9}\PY{p}{,} \PY{l+m+mf}{6.1}\PY{p}{,} \PY{l+m+mf}{8.0}\PY{p}{,} \PY{l+m+mf}{10.6}\PY{p}{,} \PY{l+m+mf}{16.8}\PY{p}{,} \PY{l+m+mf}{20.0}\PY{p}{,} \PY{l+m+mf}{22.6}\PY{p}{,} \PY{l+m+mf}{24.7}\PY{p}{,} \PY{l+m+mf}{26.4}\PY{p}{,}
+                  \PY{l+m+mf}{30.4}\PY{p}{,} \PY{l+m+mf}{33.0}\PY{p}{,} \PY{l+m+mf}{35.0}\PY{p}{,} \PY{l+m+mf}{42.6}\PY{p}{,} \PY{l+m+mf}{44.0}\PY{p}{,} \PY{l+m+mf}{44.5}\PY{p}{]}\PY{p}{)} \PY{o}{/} \PY{l+m+mi}{100}   \PY{c+c1}{\PYZsh{} m}
+    \PY{n}{Q} \PY{o}{=} \PY{l+m+mf}{0.3667}  \PY{c+c1}{\PYZsh{} 528/1440, m³/min}
+    \PY{n}{r} \PY{o}{=} \PY{l+m+mi}{90}      \PY{c+c1}{\PYZsh{} m}
+
+    \PY{n}{data} \PY{o}{=} \PY{p}{[}\PY{n}{t}\PY{p}{,} \PY{n}{s}\PY{p}{,} \PY{p}{[}\PY{n}{Q}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{n}{r}\PY{p}{]}\PY{p}{]}
+    \PY{n}{transposed\PYZus{}data} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{n+nb}{list}\PY{p}{,} \PY{n}{zip\PYZus{}longest}\PY{p}{(}\PY{o}{*}\PY{n}{data}\PY{p}{,} \PY{n}{fillvalue}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+    \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{transposed\PYZus{}data}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{t}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{s}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Q}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} 上传数据}
+    \PY{n}{uploaded\PYZus{}file} \PY{o}{=} \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{file\PYZus{}uploader}\PY{p}{(}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{上传 CSV 文件}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} 
+        \PY{n+nb}{type}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+
+    \PY{k}{if} \PY{n}{uploaded\PYZus{}file}\PY{p}{:}
+        \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{n}{uploaded\PYZus{}file}\PY{p}{)}
+        \PY{n}{t} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{t}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}   \PY{c+c1}{\PYZsh{} 时间}
+        \PY{n}{s} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{s}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}   \PY{c+c1}{\PYZsh{} 降深}
+        \PY{n}{Q} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Q}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}  \PY{c+c1}{\PYZsh{} 抽水量}
+        \PY{n}{r} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}  \PY{c+c1}{\PYZsh{} 观测距离}
+    
+    \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CSV数据预览:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{dataframe}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{height}\PY{o}{=}\PY{l+m+mi}{150}\PY{p}{,} \PY{n}{width}\PY{o}{=}\PY{l+m+mi}{400}\PY{p}{,} \PY{n}{hide\PYZus{}index}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)} 
+
+    \PY{n}{T}\PY{p}{,} \PY{n}{S}\PY{p}{,} \PY{n}{dx}\PY{p}{,} \PY{n}{dy} \PY{o}{=} \PY{n}{calc\PYZus{}init\PYZus{}params}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{s}\PY{p}{,} \PY{n}{Q}\PY{p}{,} \PY{n}{r}\PY{p}{)}
+    \PY{n}{dx} \PY{o}{=} \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{slider}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Delta }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{lg t\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{dx}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{dx}\PY{o}{+}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{dx}\PY{p}{,} \PY{l+m+mf}{0.01}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZpc{}.3f}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{dy} \PY{o}{=} \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{slider}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Delta }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{lg s\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{dy}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{dy}\PY{o}{+}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{dy}\PY{p}{,} \PY{l+m+mf}{0.01}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZpc{}.3f}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{beta} \PY{o}{=} \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{slider}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{beta\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{2.0}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{n}{step}\PY{o}{=}\PY{l+m+mf}{0.01}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZpc{}.3f}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{help\PYZus{}txt} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\PY{l+s+s1}{        \PYZhy{} 通过滑块平移图形配线;}
+\PY{l+s+s1}{        \PYZhy{} 数据为 csv 格式, 需包含 4 列数据: 时间(min), 降深(m), 抽水量(m³/min), 观测距离(m); }
+\PY{l+s+s1}{        可下载预览中的数据来了解该文件格式。 }
+\PY{l+s+s1}{        }\PY{l+s+s1}{\PYZsq{}\PYZsq{}\PYZsq{}}
+    \PY{k}{with} \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{p}{:}
+        \PY{n}{st}\PY{o}{.}\PY{n}{markdown}\PY{p}{(}\PY{n}{help\PYZus{}txt}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} 计算和绘图}
+    \PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{150}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{set}\PY{p}{(}\PY{n}{xscale}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{yscale}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{xlim}\PY{o}{=}\PY{p}{(}\PY{l+m+mf}{1.0e\PYZhy{}1}\PY{p}{,} \PY{l+m+mf}{1.0e4}\PY{p}{)}\PY{p}{,} \PY{n}{ylim}\PY{o}{=}\PY{p}{(}\PY{l+m+mf}{1.0e\PYZhy{}2}\PY{p}{,} \PY{l+m+mf}{10.0}\PY{p}{)}\PY{p}{,}
+           \PY{n}{xlabel}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{lg }\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{frac}\PY{l+s+si}{\PYZob{}1\PYZcb{}}\PY{l+s+si}{\PYZob{}u\PYZcb{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ylabel}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{lg W(u)\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{,} \PY{n}{which}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{major}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{,} \PY{n}{which}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{minor}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}aspect}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{equal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+    \PY{n}{t\PYZus{}} \PY{o}{=} \PY{l+m+mi}{10}\PY{o}{*}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{51}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t\PYZus{}}\PY{p}{,} \PY{n}{theis\PYZus{}well}\PY{p}{(}\PY{l+m+mi}{1} \PY{o}{/} \PY{n}{t\PYZus{}}\PY{p}{)}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Theis}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t\PYZus{}}\PY{p}{,} \PY{n}{hantush\PYZus{}jacob\PYZus{}well}\PY{p}{(}\PY{l+m+mi}{1} \PY{o}{/} \PY{n}{t\PYZus{}}\PY{p}{,} \PY{n}{beta}\PY{p}{)}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Hantush\PYZhy{}Jacob}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t} \PY{o}{*} \PY{l+m+mi}{10}\PY{o}{*}\PY{o}{*}\PY{n}{dx}\PY{p}{,} \PY{n}{s} \PY{o}{*} \PY{l+m+mi}{10}\PY{o}{*}\PY{o}{*}\PY{n}{dy}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{r*}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{观测值}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+
+    \PY{n}{st}\PY{o}{.}\PY{n}{pyplot}\PY{p}{(}\PY{n}{fig}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} 计算水文参数}
+    \PY{n}{T} \PY{o}{=} \PY{n}{Q} \PY{o}{/} \PY{p}{(}\PY{l+m+mi}{4} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{10}\PY{o}{*}\PY{o}{*}\PY{n}{dy}
+    \PY{n}{S} \PY{o}{=} \PY{l+m+mi}{4} \PY{o}{*} \PY{n}{T} \PY{o}{/} \PY{n}{r}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{*} \PY{l+m+mi}{10}\PY{o}{*}\PY{o}{*}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{dx}\PY{p}{)}
+    \PY{n}{st}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{T = }\PY{l+s+si}{\PYZob{}}\PY{n}{T}\PY{l+s+si}{:}\PY{l+s+s1}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ m\PYZca{}2/min, S = }\PY{l+s+si}{\PYZob{}}\PY{n}{S}\PY{l+s+si}{:}\PY{l+s+s1}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{k}{if} \PY{n}{beta} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{:}
+        \PY{n}{B} \PY{o}{=} \PY{n}{r} \PY{o}{/} \PY{n}{beta}
+    \PY{k}{else}\PY{p}{:}
+        \PY{n}{B} \PY{o}{=} \PY{n+nb}{float}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inf}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{st}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{B = }\PY{l+s+si}{\PYZob{}}\PY{n}{B}\PY{l+s+si}{:}\PY{l+s+s1}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} 生成Word文档}
+    \PY{k}{if} \PY{n}{st}\PY{o}{.}\PY{n}{button}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Word文档}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{:}
+        \PY{n}{report} \PY{o}{=} \PY{n}{create\PYZus{}report}\PY{p}{(}\PY{n}{T}\PY{p}{,} \PY{n}{S}\PY{p}{,} \PY{n}{B}\PY{p}{,} \PY{n}{fig}\PY{p}{)}
+        \PY{n}{st}\PY{o}{.}\PY{n}{download\PYZus{}button}\PY{p}{(}
+            \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{下载文档}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+            \PY{n}{data}\PY{o}{=}\PY{n}{report}\PY{p}{,}
+            \PY{n}{file\PYZus{}name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{report.docx}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+            \PY{n}{mime}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{application/vnd.openxmlformats\PYZhy{}officedocument.wordprocessingml.document}\PY{l+s+s2}{\PYZdq{}}
+        \PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 运行程序}
+\PY{k}{if} \PY{n+nv+vm}{\PYZus{}\PYZus{}name\PYZus{}\PYZus{}} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZus{}\PYZus{}main\PYZus{}\PYZus{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+    \PY{n}{hantush\PYZus{}jacob\PYZus{}fit}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Jacob 直线图解法求参程序 (jacob\_line.py)
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} jacob\PYZus{}line.py}
+
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{Jacob 直线图解法求参程序}
+
+\PY{l+s+sd}{MIT License}
+
+\PY{l+s+sd}{版权所有 (c) 2025 yanggy (yanggy@cumt.edu.cn)}
+
+\PY{l+s+sd}{特此免费授予任何获得本软件及相关文档文件（以下简称“软件”）副本的人，不受限制地}
+\PY{l+s+sd}{处理本软件的权限，包括但不限于使用、复制、修改、合并、发布、分发、再许可和 /或}
+\PY{l+s+sd}{出售本软件的副本，并允许接收本软件的人这样做，但须符合以下条件：}
+
+\PY{l+s+sd}{上述版权声明和本许可声明应包含在本软件的所有副本或实质性部分中。}
+
+\PY{l+s+sd}{本软件按“原样”提供，不提供任何形式的明示或暗示担保，包括但不限于适销性、特定用途}
+\PY{l+s+sd}{适用性和非侵权性的担保。在任何情况下，作者或版权持有人均不对任何索赔、损害或其他}
+\PY{l+s+sd}{责任负责，无论是在合同、侵权或其他行为中产生的，还是与本软件或本软件的使用或其他}
+\PY{l+s+sd}{交易有关的。}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{font\PYZus{}manager}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{pandas}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{pd}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{streamlit}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{st}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{docx}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{Document}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{docx}\PY{n+nn}{.}\PY{n+nn}{shared}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{Inches}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{io}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{BytesIO}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{os}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{itertools}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{zip\PYZus{}longest}
+
+\PY{c+c1}{\PYZsh{} 配置字体和全局参数}
+\PY{n}{py\PYZus{}path} \PY{o}{=} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{dirname}\PY{p}{(}\PY{n+nv+vm}{\PYZus{}\PYZus{}file\PYZus{}\PYZus{}}\PY{p}{)}
+\PY{n}{font\PYZus{}mapping} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{simkai.ttf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{KaiTi}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} 
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{simhei.ttf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{simhei}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}         
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{simfang.ttf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FangSong}\PY{l+s+s2}{\PYZdq{}}  
+\PY{p}{\PYZcb{}}
+\PY{n}{loaded\PYZus{}font\PYZus{}families} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Times New Roman}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{k}{for} \PY{n}{font\PYZus{}file}\PY{p}{,} \PY{n}{font\PYZus{}family} \PY{o+ow}{in} \PY{n}{font\PYZus{}mapping}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{font\PYZus{}path} \PY{o}{=} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{py\PYZus{}path}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{fonts}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{font\PYZus{}file}\PY{p}{)}
+    \PY{k}{if} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{exists}\PY{p}{(}\PY{n}{font\PYZus{}path}\PY{p}{)}\PY{p}{:}
+        \PY{n}{font\PYZus{}manager}\PY{o}{.}\PY{n}{fontManager}\PY{o}{.}\PY{n}{addfont}\PY{p}{(}\PY{n}{font\PYZus{}path}\PY{p}{)}
+        \PY{n}{loaded\PYZus{}font\PYZus{}families}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{font\PYZus{}family}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} break}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{font.family}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{loaded\PYZus{}font\PYZus{}families}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{axes.unicode\PYZus{}minus}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{k+kc}{False}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xtick.direction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{in}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ytick.direction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{in}\PY{l+s+s1}{\PYZsq{}}
+
+\PY{c+c1}{\PYZsh{} 计算初始参数}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{calc\PYZus{}init\PYZus{}param}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{s}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}按 Jacob 公式计算参数。\PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{idx} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{argmin}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{t} \PY{o}{/} \PY{n}{t}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{l+m+mf}{0.5}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}
+    \PY{n}{slope} \PY{o}{=} \PY{p}{(}\PY{n}{s}\PY{p}{[}\PY{n}{idx}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{s}\PY{p}{[}\PY{n}{idx} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{log10}\PY{p}{(}\PY{n}{t}\PY{p}{[}\PY{n}{idx}\PY{p}{]} \PY{o}{/} \PY{n}{t}\PY{p}{[}\PY{n}{idx} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+    \PY{n}{t0} \PY{o}{=} \PY{n}{t}\PY{p}{[}\PY{n}{idx}\PY{p}{]} \PY{o}{*} \PY{l+m+mi}{10}\PY{o}{*}\PY{o}{*}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{s}\PY{p}{[}\PY{n}{idx}\PY{p}{]} \PY{o}{/} \PY{n}{slope}\PY{p}{)}
+    \PY{k}{return} \PY{n}{t0}\PY{p}{,} \PY{n}{slope}
+
+\PY{c+c1}{\PYZsh{} 生成Word文档}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{create\PYZus{}report}\PY{p}{(}\PY{n}{T}\PY{p}{,} \PY{n}{S}\PY{p}{,} \PY{n}{fig}\PY{p}{,} \PY{n}{filename}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{report.docx}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}生成Word文档\PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{doc} \PY{o}{=} \PY{n}{Document}\PY{p}{(}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{add\PYZus{}heading}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{直线图解法求参}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{level}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{add\PYZus{}paragraph}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{导水系数 T = }\PY{l+s+si}{\PYZob{}}\PY{n}{T}\PY{l+s+si}{:}\PY{l+s+s2}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ m²/min}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{add\PYZus{}paragraph}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{贮水系数 S = }\PY{l+s+si}{\PYZob{}}\PY{n}{S}\PY{l+s+si}{:}\PY{l+s+s2}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    
+    \PY{n}{img\PYZus{}buffer} \PY{o}{=} \PY{n}{BytesIO}\PY{p}{(}\PY{p}{)}
+    \PY{n}{fig}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{n}{img\PYZus{}buffer}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{300}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{png}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{bbox\PYZus{}inches}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{tight}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{img\PYZus{}buffer}\PY{o}{.}\PY{n}{seek}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{add\PYZus{}picture}\PY{p}{(}\PY{n}{img\PYZus{}buffer}\PY{p}{,} \PY{n}{width}\PY{o}{=}\PY{n}{Inches}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+    
+    \PY{n}{report\PYZus{}buffer} \PY{o}{=} \PY{n}{BytesIO}\PY{p}{(}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{save}\PY{p}{(}\PY{n}{report\PYZus{}buffer}\PY{p}{)}
+    \PY{n}{report\PYZus{}buffer}\PY{o}{.}\PY{n}{seek}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+    \PY{k}{return} \PY{n}{report\PYZus{}buffer}
+
+\PY{c+c1}{\PYZsh{} 主程序}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{jacob\PYZus{}line}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{st}\PY{o}{.}\PY{n}{markdown}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZsh{}\PYZsh{}\PYZsh{} Jacob直线图解法求参}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{t} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{9}\PY{p}{,} \PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{30}\PY{p}{,} \PY{l+m+mi}{40}\PY{p}{,} \PY{l+m+mi}{50}\PY{p}{,} \PY{l+m+mi}{60}\PY{p}{,} 
+                  \PY{l+m+mi}{90}\PY{p}{,} \PY{l+m+mi}{120}\PY{p}{,} \PY{l+m+mi}{150}\PY{p}{,} \PY{l+m+mi}{360}\PY{p}{,} \PY{l+m+mi}{550}\PY{p}{,} \PY{l+m+mi}{720}\PY{p}{]}\PY{p}{)}  \PY{c+c1}{\PYZsh{} min}
+    \PY{n}{s} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{2.5}\PY{p}{,} \PY{l+m+mf}{3.9}\PY{p}{,} \PY{l+m+mf}{6.1}\PY{p}{,} \PY{l+m+mf}{8.0}\PY{p}{,} \PY{l+m+mf}{10.6}\PY{p}{,} \PY{l+m+mf}{16.8}\PY{p}{,} \PY{l+m+mf}{20.0}\PY{p}{,} \PY{l+m+mf}{22.6}\PY{p}{,} \PY{l+m+mf}{24.7}\PY{p}{,} \PY{l+m+mf}{26.4}\PY{p}{,}
+                  \PY{l+m+mf}{30.4}\PY{p}{,} \PY{l+m+mf}{33.0}\PY{p}{,} \PY{l+m+mf}{35.0}\PY{p}{,} \PY{l+m+mf}{42.6}\PY{p}{,} \PY{l+m+mf}{44.0}\PY{p}{,} \PY{l+m+mf}{44.5}\PY{p}{]}\PY{p}{)} \PY{o}{/} \PY{l+m+mi}{100}   \PY{c+c1}{\PYZsh{} m}
+    \PY{n}{Q} \PY{o}{=} \PY{l+m+mf}{0.3667}  \PY{c+c1}{\PYZsh{} 528/1440, m³/min}
+    \PY{n}{r} \PY{o}{=} \PY{l+m+mi}{90}      \PY{c+c1}{\PYZsh{} m}
+
+    \PY{n}{data} \PY{o}{=} \PY{p}{[}\PY{n}{t}\PY{p}{,} \PY{n}{s}\PY{p}{,} \PY{p}{[}\PY{n}{Q}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{n}{r}\PY{p}{]}\PY{p}{]}
+    \PY{n}{transposed\PYZus{}data} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{n+nb}{list}\PY{p}{,} \PY{n}{zip\PYZus{}longest}\PY{p}{(}\PY{o}{*}\PY{n}{data}\PY{p}{,} \PY{n}{fillvalue}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+    \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{transposed\PYZus{}data}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{t}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{s}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Q}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} 上传数据}
+    \PY{n}{uploaded\PYZus{}file} \PY{o}{=} \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{file\PYZus{}uploader}\PY{p}{(}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{上传 CSV 文件}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} 
+        \PY{n+nb}{type}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+
+    \PY{k}{if} \PY{n}{uploaded\PYZus{}file}\PY{p}{:}
+        \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{n}{uploaded\PYZus{}file}\PY{p}{)}
+        \PY{n}{t} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{t}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}   \PY{c+c1}{\PYZsh{} 时间}
+        \PY{n}{s} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{s}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}   \PY{c+c1}{\PYZsh{} 降深}
+        \PY{n}{Q} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Q}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}  \PY{c+c1}{\PYZsh{} 抽水量}
+        \PY{n}{r} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}  \PY{c+c1}{\PYZsh{} 观测距离}
+    
+    \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CSV数据预览:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{dataframe}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{height}\PY{o}{=}\PY{l+m+mi}{200}\PY{p}{,} \PY{n}{width}\PY{o}{=}\PY{l+m+mi}{400}\PY{p}{,} \PY{n}{hide\PYZus{}index}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)} 
+
+    \PY{n}{t0}\PY{p}{,} \PY{n}{slope} \PY{o}{=} \PY{n}{calc\PYZus{}init\PYZus{}param}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{s}\PY{p}{)}
+    \PY{n}{t0} \PY{o}{=} \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{slider}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}t\PYZus{}0\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{t0}\PY{o}{/}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{t0}\PY{o}{*}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{t0}\PY{p}{,} \PY{n}{t0}\PY{o}{/}\PY{l+m+mi}{50}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZpc{}.3f}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{slope} \PY{o}{=} \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{slider}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}i\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{slope}\PY{o}{/}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{slope}\PY{o}{*}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{slope}\PY{p}{,} \PY{n}{slope}\PY{o}{/}\PY{l+m+mi}{50}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZpc{}.3f}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{help\PYZus{}txt} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\PY{l+s+s1}{        \PYZhy{} 通过滑块调整零降深时间与直线斜率;}
+\PY{l+s+s1}{        \PYZhy{} 抽水初始阶段不满足 u 比较小的条件, 这些观测数据不能用;}
+\PY{l+s+s1}{        \PYZhy{} 长时间抽水, 降落漏斗扩展到边界, 后期降深变化平缓的观测数据不能用。}
+\PY{l+s+s1}{        \PYZhy{} 数据为 csv 格式, 需包含 4 列数据: 时间(min), 降深(m), 抽水量(m³/min), 观测距离(m); }
+\PY{l+s+s1}{        可下载预览中的数据来了解该文件格式。 }
+\PY{l+s+s1}{        }\PY{l+s+s1}{\PYZsq{}\PYZsq{}\PYZsq{}}
+    \PY{k}{with} \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{p}{:}
+        \PY{n}{st}\PY{o}{.}\PY{n}{markdown}\PY{p}{(}\PY{n}{help\PYZus{}txt}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} 计算和绘图}
+    \PY{n}{T} \PY{o}{=} \PY{l+m+mf}{0.183} \PY{o}{*} \PY{n}{Q} \PY{o}{/} \PY{n}{slope}
+    \PY{n}{S} \PY{o}{=} \PY{l+m+mf}{2.25} \PY{o}{*} \PY{n}{T} \PY{o}{*} \PY{n}{t0} \PY{o}{/} \PY{n}{r}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} 
+
+    \PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{150}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{set}\PY{p}{(}\PY{n}{xscale}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{xlabel}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{lg t\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ylabel}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}s\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{,} \PY{n}{which}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{major}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{,} \PY{n}{which}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{minor}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{s}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{r*}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{观测值}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{t\PYZus{}} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{n+nb}{min}\PY{p}{(}\PY{n}{t}\PY{p}{)}\PY{p}{,} \PY{n+nb}{max}\PY{p}{(}\PY{n}{t}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{50}\PY{p}{)}
+    \PY{n}{s\PYZus{}} \PY{o}{=} \PY{n}{slope} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{log10}\PY{p}{(}\PY{n}{t\PYZus{}} \PY{o}{/} \PY{n}{t0}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t\PYZus{}}\PY{p}{,} \PY{n}{s\PYZus{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{拟合直线}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+
+    \PY{n}{st}\PY{o}{.}\PY{n}{pyplot}\PY{p}{(}\PY{n}{fig}\PY{p}{)}
+    \PY{n}{st}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{T = }\PY{l+s+si}{\PYZob{}}\PY{n}{T}\PY{l+s+si}{:}\PY{l+s+s1}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ m²/min, S = }\PY{l+s+si}{\PYZob{}}\PY{n}{S}\PY{l+s+si}{:}\PY{l+s+s1}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} 生成Word文档}
+    \PY{k}{if} \PY{n}{st}\PY{o}{.}\PY{n}{button}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Word文档}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{:}
+        \PY{n}{report} \PY{o}{=} \PY{n}{create\PYZus{}report}\PY{p}{(}\PY{n}{T}\PY{p}{,} \PY{n}{S}\PY{p}{,} \PY{n}{fig}\PY{p}{)}
+        \PY{n}{st}\PY{o}{.}\PY{n}{download\PYZus{}button}\PY{p}{(}
+            \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{下载文档}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+            \PY{n}{data}\PY{o}{=}\PY{n}{report}\PY{p}{,}
+            \PY{n}{file\PYZus{}name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{report.docx}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+            \PY{n}{mime}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{application/vnd.openxmlformats\PYZhy{}officedocument.wordprocessingml.document}\PY{l+s+s2}{\PYZdq{}}
+        \PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 运行程序}
+\PY{k}{if} \PY{n+nv+vm}{\PYZus{}\PYZus{}name\PYZus{}\PYZus{}} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZus{}\PYZus{}main\PYZus{}\PYZus{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+    \PY{n}{jacob\PYZus{}line}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    拐点法 (inflection.py)
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} inflection.py}
+
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{拐点法求参程序}
+
+\PY{l+s+sd}{MIT License}
+
+\PY{l+s+sd}{版权所有 (c) 2025 yanggy (yanggy@cumt.edu.cn)}
+
+\PY{l+s+sd}{特此免费授予任何获得本软件及相关文档文件（以下简称“软件”）副本的人，不受限制地}
+\PY{l+s+sd}{处理本软件的权限，包括但不限于使用、复制、修改、合并、发布、分发、再许可和 /或}
+\PY{l+s+sd}{出售本软件的副本，并允许接收本软件的人这样做，但须符合以下条件：}
+
+\PY{l+s+sd}{上述版权声明和本许可声明应包含在本软件的所有副本或实质性部分中。}
+
+\PY{l+s+sd}{本软件按“原样”提供，不提供任何形式的明示或暗示担保，包括但不限于适销性、特定用途}
+\PY{l+s+sd}{适用性和非侵权性的担保。在任何情况下，作者或版权持有人均不对任何索赔、损害或其他}
+\PY{l+s+sd}{责任负责，无论是在合同、侵权或其他行为中产生的，还是与本软件或本软件的使用或其他}
+\PY{l+s+sd}{交易有关的。}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{font\PYZus{}manager}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{pandas}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{pd}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{streamlit}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{st}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{docx}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{Document}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{docx}\PY{n+nn}{.}\PY{n+nn}{shared}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{Inches}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{io}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{BytesIO}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{os}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{itertools}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{zip\PYZus{}longest}
+
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{special}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{expn}\PY{p}{,} \PY{n}{k0}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{optimize}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{bisect}
+
+\PY{c+c1}{\PYZsh{} 配置字体和全局参数}
+\PY{n}{py\PYZus{}path} \PY{o}{=} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{dirname}\PY{p}{(}\PY{n+nv+vm}{\PYZus{}\PYZus{}file\PYZus{}\PYZus{}}\PY{p}{)}
+\PY{n}{font\PYZus{}mapping} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{simkai.ttf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{KaiTi}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} 
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{simhei.ttf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{simhei}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}         
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{simfang.ttf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FangSong}\PY{l+s+s2}{\PYZdq{}}  
+\PY{p}{\PYZcb{}}
+\PY{n}{loaded\PYZus{}font\PYZus{}families} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Times New Roman}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{k}{for} \PY{n}{font\PYZus{}file}\PY{p}{,} \PY{n}{font\PYZus{}family} \PY{o+ow}{in} \PY{n}{font\PYZus{}mapping}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{font\PYZus{}path} \PY{o}{=} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{py\PYZus{}path}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{fonts}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{font\PYZus{}file}\PY{p}{)}
+    \PY{k}{if} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{exists}\PY{p}{(}\PY{n}{font\PYZus{}path}\PY{p}{)}\PY{p}{:}
+        \PY{n}{font\PYZus{}manager}\PY{o}{.}\PY{n}{fontManager}\PY{o}{.}\PY{n}{addfont}\PY{p}{(}\PY{n}{font\PYZus{}path}\PY{p}{)}
+        \PY{n}{loaded\PYZus{}font\PYZus{}families}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{font\PYZus{}family}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} break}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{font.family}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{loaded\PYZus{}font\PYZus{}families}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{axes.unicode\PYZus{}minus}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{k+kc}{False}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xtick.direction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{in}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ytick.direction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{in}\PY{l+s+s1}{\PYZsq{}}
+
+\PY{c+c1}{\PYZsh{} Hantush\PYZhy{}Jacob 井函数计算}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{hantush\PYZus{}jacob\PYZus{}well}\PY{p}{(}\PY{n}{u}\PY{p}{,} \PY{n}{beta}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}计算 Hantush\PYZhy{}Jacob 井函数。\PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{k}{def}\PY{+w}{ }\PY{n+nf}{wellfunc}\PY{p}{(}\PY{n}{u}\PY{p}{,} \PY{n}{beta}\PY{p}{)}\PY{p}{:}
+        \PY{k}{if} \PY{n}{u} \PY{o}{\PYZlt{}} \PY{l+m+mi}{0}\PY{p}{:}
+            \PY{k}{raise} \PY{n+ne}{ValueError}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Negative values for }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{u}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{ are not allowed.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{k}{if} \PY{n}{u} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:}
+            \PY{k}{return} \PY{l+m+mf}{2.0} \PY{o}{*} \PY{n}{k0}\PY{p}{(}\PY{n}{beta}\PY{p}{)}
+        \PY{n}{r}\PY{p}{,} \PY{n}{b}\PY{p}{,} \PY{n}{t} \PY{o}{=} \PY{l+m+mf}{1.0}\PY{p}{,} \PY{l+m+mi}{2} \PY{o}{*} \PY{n}{u}\PY{p}{,} \PY{n}{beta}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{/} \PY{p}{(}\PY{l+m+mi}{4} \PY{o}{*} \PY{n}{u}\PY{p}{)}
+        \PY{n}{W}\PY{p}{,} \PY{n}{n} \PY{o}{=} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mi}{0}
+        \PY{k}{if} \PY{n}{beta} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{b}\PY{p}{:}
+            \PY{n}{term} \PY{o}{=} \PY{n}{r} \PY{o}{*} \PY{n}{expn}\PY{p}{(}\PY{n}{n} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{u}\PY{p}{)}
+            \PY{k}{while} \PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{term}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mf}{1e\PYZhy{}10}\PY{p}{:}
+                \PY{n}{W} \PY{o}{+}\PY{o}{=} \PY{n}{term}
+                \PY{n}{n} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+                \PY{n}{r} \PY{o}{*}\PY{o}{=} \PY{o}{\PYZhy{}}\PY{n}{t} \PY{o}{/} \PY{n}{n}
+                \PY{n}{term} \PY{o}{=} \PY{n}{r} \PY{o}{*} \PY{n}{expn}\PY{p}{(}\PY{n}{n} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{u}\PY{p}{)}
+        \PY{k}{else}\PY{p}{:}
+            \PY{n}{W} \PY{o}{=} \PY{l+m+mf}{2.0} \PY{o}{*} \PY{n}{k0}\PY{p}{(}\PY{n}{beta}\PY{p}{)}
+            \PY{n}{term} \PY{o}{=} \PY{n}{r} \PY{o}{*} \PY{n}{expn}\PY{p}{(}\PY{n}{n} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{t}\PY{p}{)}
+            \PY{k}{while} \PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{term}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mf}{1e\PYZhy{}10}\PY{p}{:}
+                \PY{n}{W} \PY{o}{\PYZhy{}}\PY{o}{=} \PY{n}{term}
+                \PY{n}{n} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+                \PY{n}{r} \PY{o}{*}\PY{o}{=} \PY{o}{\PYZhy{}}\PY{n}{u} \PY{o}{/} \PY{n}{n}
+                \PY{n}{term} \PY{o}{=} \PY{n}{r} \PY{o}{*} \PY{n}{expn}\PY{p}{(}\PY{n}{n} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{t}\PY{p}{)}
+        \PY{k}{return} \PY{n}{W}
+    \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{vectorize}\PY{p}{(}\PY{n}{wellfunc}\PY{p}{)}\PY{p}{(}\PY{n}{u}\PY{p}{,} \PY{n}{beta}\PY{p}{)}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{calc\PYZus{}init\PYZus{}params}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{s}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}按 Jacob 公式计算参数。\PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{sp} \PY{o}{=} \PY{l+m+mf}{0.5} \PY{o}{*} \PY{n}{s}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+    \PY{n}{idx} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{s} \PY{o}{\PYZgt{}} \PY{n}{sp}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}
+    \PY{n}{tp} \PY{o}{=} \PY{n}{t}\PY{p}{[}\PY{n}{idx}\PY{p}{]}
+    \PY{n}{slope} \PY{o}{=} \PY{p}{(}\PY{n}{s}\PY{p}{[}\PY{n}{idx}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{s}\PY{p}{[}\PY{n}{idx} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{log10}\PY{p}{(}\PY{n}{t}\PY{p}{[}\PY{n}{idx}\PY{p}{]} \PY{o}{/} \PY{n}{t}\PY{p}{[}\PY{n}{idx} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+    \PY{k}{return} \PY{n}{sp}\PY{p}{,} \PY{n}{tp}\PY{p}{,} \PY{n}{slope}
+
+\PY{c+c1}{\PYZsh{} 生成Word文档}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{create\PYZus{}report}\PY{p}{(}\PY{n}{T}\PY{p}{,} \PY{n}{S}\PY{p}{,} \PY{n}{B}\PY{p}{,} \PY{n}{fig}\PY{p}{,} \PY{n}{filename}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{report.docx}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}生成Word文档\PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{doc} \PY{o}{=} \PY{n}{Document}\PY{p}{(}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{add\PYZus{}heading}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{配线法求参}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{level}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{add\PYZus{}paragraph}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{导水系数 T = }\PY{l+s+si}{\PYZob{}}\PY{n}{T}\PY{l+s+si}{:}\PY{l+s+s2}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ m²/min}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{add\PYZus{}paragraph}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{贮水系数 S = }\PY{l+s+si}{\PYZob{}}\PY{n}{S}\PY{l+s+si}{:}\PY{l+s+s2}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{add\PYZus{}paragraph}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{越流因素 B = }\PY{l+s+si}{\PYZob{}}\PY{n}{B}\PY{l+s+si}{:}\PY{l+s+s2}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ m}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{img\PYZus{}buffer} \PY{o}{=} \PY{n}{BytesIO}\PY{p}{(}\PY{p}{)}
+    \PY{n}{fig}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{n}{img\PYZus{}buffer}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{300}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{png}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{bbox\PYZus{}inches}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{tight}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{img\PYZus{}buffer}\PY{o}{.}\PY{n}{seek}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{add\PYZus{}picture}\PY{p}{(}\PY{n}{img\PYZus{}buffer}\PY{p}{,} \PY{n}{width}\PY{o}{=}\PY{n}{Inches}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+    
+    \PY{n}{report\PYZus{}buffer} \PY{o}{=} \PY{n}{BytesIO}\PY{p}{(}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{save}\PY{p}{(}\PY{n}{report\PYZus{}buffer}\PY{p}{)}
+    \PY{n}{report\PYZus{}buffer}\PY{o}{.}\PY{n}{seek}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+    \PY{k}{return} \PY{n}{report\PYZus{}buffer}
+
+\PY{c+c1}{\PYZsh{} 主程序}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{inflection}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{st}\PY{o}{.}\PY{n}{markdown}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZsh{}\PYZsh{}\PYZsh{} 拐点法求参}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{t} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{7}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{15}\PY{p}{,} \PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{25}\PY{p}{,} \PY{l+m+mi}{30}\PY{p}{,} \PY{l+m+mi}{45}\PY{p}{,} \PY{l+m+mi}{60}\PY{p}{,} 
+                  \PY{l+m+mi}{75}\PY{p}{,} \PY{l+m+mi}{90}\PY{p}{,} \PY{l+m+mi}{120}\PY{p}{,} \PY{l+m+mi}{150}\PY{p}{,} \PY{l+m+mi}{180}\PY{p}{,} \PY{l+m+mi}{210}\PY{p}{,} \PY{l+m+mi}{240}\PY{p}{,} \PY{l+m+mi}{270}\PY{p}{,} \PY{l+m+mi}{300}\PY{p}{,} \PY{l+m+mi}{330}\PY{p}{,}
+                  \PY{l+m+mi}{360}\PY{p}{,} \PY{l+m+mi}{390}\PY{p}{,} \PY{l+m+mi}{420}\PY{p}{,} \PY{l+m+mi}{450}\PY{p}{,} \PY{l+m+mi}{480}\PY{p}{,} \PY{l+m+mi}{510}\PY{p}{,} \PY{l+m+mi}{540}\PY{p}{]}\PY{p}{)}
+    \PY{n}{s} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+m+mf}{0.054}\PY{p}{,} \PY{l+m+mf}{0.12}\PY{p}{,} \PY{l+m+mf}{0.175}\PY{p}{,} \PY{l+m+mf}{0.26}\PY{p}{,} \PY{l+m+mf}{0.33}\PY{p}{,} \PY{l+m+mf}{0.383}\PY{p}{,} \PY{l+m+mf}{0.425}\PY{p}{,} \PY{l+m+mf}{0.52}\PY{p}{,} 
+                  \PY{l+m+mf}{0.575}\PY{p}{,} \PY{l+m+mf}{0.62}\PY{p}{,} \PY{l+m+mf}{0.64}\PY{p}{,} \PY{l+m+mf}{0.685}\PY{p}{,} \PY{l+m+mf}{0.725}\PY{p}{,} \PY{l+m+mf}{0.735}\PY{p}{,} \PY{l+m+mf}{0.755}\PY{p}{,} \PY{l+m+mf}{0.76}\PY{p}{,} \PY{l+m+mf}{0.76}\PY{p}{,}
+                  \PY{l+m+mf}{0.763}\PY{p}{,} \PY{l+m+mf}{0.77}\PY{p}{,} \PY{l+m+mf}{0.772}\PY{p}{,} \PY{l+m+mf}{0.785}\PY{p}{,} \PY{l+m+mf}{0.79}\PY{p}{,} \PY{l+m+mf}{0.792}\PY{p}{,} \PY{l+m+mf}{0.794}\PY{p}{,} \PY{l+m+mf}{0.795}\PY{p}{,} \PY{l+m+mf}{0.796}\PY{p}{]}\PY{p}{)}
+    \PY{n}{Q} \PY{o}{=} \PY{l+m+mf}{69.1} \PY{o}{/} \PY{l+m+mi}{60}  \PY{c+c1}{\PYZsh{} m³/min}
+    \PY{n}{r} \PY{o}{=} \PY{l+m+mf}{197.0}      \PY{c+c1}{\PYZsh{} m}
+
+    \PY{n}{data} \PY{o}{=} \PY{p}{[}\PY{n}{t}\PY{p}{,} \PY{n}{s}\PY{p}{,} \PY{p}{[}\PY{n}{Q}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{n}{r}\PY{p}{]}\PY{p}{]}
+    \PY{n}{transposed\PYZus{}data} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{n+nb}{list}\PY{p}{,} \PY{n}{zip\PYZus{}longest}\PY{p}{(}\PY{o}{*}\PY{n}{data}\PY{p}{,} \PY{n}{fillvalue}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+    \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{transposed\PYZus{}data}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{t}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{s}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Q}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} 上传数据}
+    \PY{n}{uploaded\PYZus{}file} \PY{o}{=} \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{file\PYZus{}uploader}\PY{p}{(}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{上传 CSV 文件}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} 
+        \PY{n+nb}{type}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+
+    \PY{k}{if} \PY{n}{uploaded\PYZus{}file}\PY{p}{:}
+        \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{n}{uploaded\PYZus{}file}\PY{p}{)}
+        \PY{n}{t} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{t}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}   \PY{c+c1}{\PYZsh{} 时间}
+        \PY{n}{s} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{s}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}   \PY{c+c1}{\PYZsh{} 降深}
+        \PY{n}{Q} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Q}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}  \PY{c+c1}{\PYZsh{} 抽水量}
+        \PY{n}{r} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}  \PY{c+c1}{\PYZsh{} 观测距离}
+    
+    \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CSV数据预览:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{dataframe}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{height}\PY{o}{=}\PY{l+m+mi}{200}\PY{p}{,} \PY{n}{width}\PY{o}{=}\PY{l+m+mi}{400}\PY{p}{,} \PY{n}{hide\PYZus{}index}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)} 
+
+    \PY{n}{sp}\PY{p}{,} \PY{n}{tp}\PY{p}{,} \PY{n}{slope} \PY{o}{=} \PY{n}{calc\PYZus{}init\PYZus{}params}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{s}\PY{p}{)}
+
+    \PY{n}{tp} \PY{o}{=} \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{slider}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}t\PYZus{}p\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{tp}\PY{o}{/}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{tp}\PY{o}{*}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{tp}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{tp}\PY{o}{/}\PY{l+m+mi}{50}\PY{p}{)}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZpc{}.3f}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{sp} \PY{o}{=} \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{number\PYZus{}input}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}s\PYZus{}p\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{sp}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{sp}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{sp}\PY{p}{)}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZpc{}.3f}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{slope} \PY{o}{=} \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{slider}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}i\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{slope}\PY{o}{/}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{slope}\PY{o}{*}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{slope}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{slope}\PY{o}{/}\PY{l+m+mi}{50}\PY{p}{)}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZpc{}.3f}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{help\PYZus{}txt} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\PY{l+s+s1}{        \PYZhy{} 通过滑块调整拐点与切线斜率;}
+\PY{l+s+s1}{        \PYZhy{} 拐点降深需要输入;}
+\PY{l+s+s1}{        \PYZhy{} 数据为 csv 格式, 需包含 4 列数据: 时间(min), 降深(m), 抽水量(m³/min), 观测距离(m); }
+\PY{l+s+s1}{        可下载预览中的数据来了解该文件格式。 }
+\PY{l+s+s1}{        }\PY{l+s+s1}{\PYZsq{}\PYZsq{}\PYZsq{}}
+    \PY{k}{with} \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{p}{:}
+        \PY{n}{st}\PY{o}{.}\PY{n}{markdown}\PY{p}{(}\PY{n}{help\PYZus{}txt}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} 计算和绘图}
+    \PY{n}{beta} \PY{o}{=} \PY{n}{bisect}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{o}{*} \PY{n}{k0}\PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mf}{2.3} \PY{o}{*} \PY{n}{sp} \PY{o}{/} \PY{n}{slope}\PY{p}{,} \PY{l+m+mf}{0.001}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}
+    \PY{n}{T} \PY{o}{=} \PY{l+m+mf}{2.3} \PY{o}{*} \PY{n}{Q} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{beta}\PY{p}{)} \PY{o}{/} \PY{p}{(}\PY{l+m+mi}{4} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{pi} \PY{o}{*} \PY{n}{slope}\PY{p}{)}
+    \PY{n}{S} \PY{o}{=} \PY{l+m+mi}{2} \PY{o}{*} \PY{n}{T} \PY{o}{*} \PY{n}{tp} \PY{o}{*} \PY{n}{beta} \PY{o}{/} \PY{n}{r}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}
+    \PY{n}{B} \PY{o}{=} \PY{n}{r} \PY{o}{/} \PY{n}{beta}
+
+    \PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{150}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{s}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{观测值}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{tp}\PY{p}{,} \PY{n}{sp}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{拐点}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{x\PYZus{}log\PYZus{}min} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{floor}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{log10}\PY{p}{(}\PY{n+nb}{min}\PY{p}{(}\PY{n}{t}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+    \PY{n}{x\PYZus{}log\PYZus{}max} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{ceil}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{log10}\PY{p}{(}\PY{n+nb}{max}\PY{p}{(}\PY{n}{t}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+    \PY{n}{t\PYZus{}} \PY{o}{=} \PY{l+m+mi}{10}\PY{o}{*}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{n}{x\PYZus{}log\PYZus{}min}\PY{p}{,} \PY{n}{x\PYZus{}log\PYZus{}max}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t\PYZus{}}\PY{p}{,} \PY{n}{sp} \PY{o}{+} \PY{n}{slope} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{log10}\PY{p}{(}\PY{n}{t\PYZus{}} \PY{o}{/} \PY{n}{tp}\PY{p}{)}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{拐点切线}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{u} \PY{o}{=} \PY{l+m+mf}{0.25} \PY{o}{*} \PY{n}{r}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{*} \PY{n}{S} \PY{o}{/} \PY{p}{(}\PY{n}{T} \PY{o}{*} \PY{n}{t\PYZus{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t\PYZus{}}\PY{p}{,} \PY{l+m+mf}{0.25} \PY{o}{*} \PY{n}{Q} \PY{o}{*} \PY{n}{hantush\PYZus{}jacob\PYZus{}well}\PY{p}{(}\PY{n}{u}\PY{p}{,} \PY{n}{beta}\PY{p}{)} \PY{o}{/} \PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{pi} \PY{o}{*} \PY{n}{T}\PY{p}{)}\PY{p}{,} 
+            \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{标准曲线}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    
+    \PY{n}{ax}\PY{o}{.}\PY{n}{set}\PY{p}{(}\PY{n}{xscale}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} 
+           \PY{n}{xlim}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{o}{*}\PY{o}{*}\PY{n}{x\PYZus{}log\PYZus{}min}\PY{p}{,} \PY{l+m+mi}{10}\PY{o}{*}\PY{o}{*}\PY{n}{x\PYZus{}log\PYZus{}max}\PY{p}{)}\PY{p}{,} 
+           \PY{n}{ylim}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{ceil}\PY{p}{(}\PY{n+nb}{max}\PY{p}{(}\PY{n}{s}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{10}\PY{p}{)} \PY{o}{/} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{,}
+                  \PY{n}{xlabel}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{lg t\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+           \PY{n}{ylabel}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}s\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}
+    \PY{p}{)}
+
+    \PY{n}{ax}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{,} \PY{n}{which}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{major}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{,} \PY{n}{which}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{minor}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+    
+    \PY{n}{st}\PY{o}{.}\PY{n}{pyplot}\PY{p}{(}\PY{n}{fig}\PY{p}{)}
+    \PY{n}{st}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{T = }\PY{l+s+si}{\PYZob{}}\PY{n}{T}\PY{l+s+si}{:}\PY{l+s+s1}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ m²/min, S = }\PY{l+s+si}{\PYZob{}}\PY{n}{S}\PY{l+s+si}{:}\PY{l+s+s1}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{, B = }\PY{l+s+si}{\PYZob{}}\PY{n}{B}\PY{l+s+si}{:}\PY{l+s+s1}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ m}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} 生成Word文档}
+    \PY{k}{if} \PY{n}{st}\PY{o}{.}\PY{n}{button}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Word文档}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{:}
+        \PY{n}{report} \PY{o}{=} \PY{n}{create\PYZus{}report}\PY{p}{(}\PY{n}{T}\PY{p}{,} \PY{n}{S}\PY{p}{,} \PY{n}{B}\PY{p}{,} \PY{n}{fig}\PY{p}{)}
+        \PY{n}{st}\PY{o}{.}\PY{n}{download\PYZus{}button}\PY{p}{(}
+            \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{下载文档}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+            \PY{n}{data}\PY{o}{=}\PY{n}{report}\PY{p}{,}
+            \PY{n}{file\PYZus{}name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{report.docx}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+            \PY{n}{mime}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{application/vnd.openxmlformats\PYZhy{}officedocument.wordprocessingml.document}\PY{l+s+s2}{\PYZdq{}}
+        \PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 运行程序}
+\PY{k}{if} \PY{n+nv+vm}{\PYZus{}\PYZus{}name\PYZus{}\PYZus{}} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZus{}\PYZus{}main\PYZus{}\PYZus{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+    \PY{n}{inflection}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Jacob 公式最小二乘法 (\# jacob\_lstsq.py)
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} jacob\PYZus{}lstsq.py}
+
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{Jacob 公式最小二乘法求参程序}
+
+\PY{l+s+sd}{MIT License}
+
+\PY{l+s+sd}{版权所有 (c) 2025 yanggy (yanggy@cumt.edu.cn)}
+
+\PY{l+s+sd}{特此免费授予任何获得本软件及相关文档文件（以下简称“软件”）副本的人，不受限制地}
+\PY{l+s+sd}{处理本软件的权限，包括但不限于使用、复制、修改、合并、发布、分发、再许可和 /或}
+\PY{l+s+sd}{出售本软件的副本，并允许接收本软件的人这样做，但须符合以下条件：}
+
+\PY{l+s+sd}{上述版权声明和本许可声明应包含在本软件的所有副本或实质性部分中。}
+
+\PY{l+s+sd}{本软件按“原样”提供，不提供任何形式的明示或暗示担保，包括但不限于适销性、特定用途}
+\PY{l+s+sd}{适用性和非侵权性的担保。在任何情况下，作者或版权持有人均不对任何索赔、损害或其他}
+\PY{l+s+sd}{责任负责，无论是在合同、侵权或其他行为中产生的，还是与本软件或本软件的使用或其他}
+\PY{l+s+sd}{交易有关的。}
+\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{font\PYZus{}manager}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{pandas}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{pd}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{streamlit}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{st}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{docx}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{Document}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{docx}\PY{n+nn}{.}\PY{n+nn}{shared}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{Inches}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{io}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{BytesIO}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{os}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{itertools}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{zip\PYZus{}longest}
+
+\PY{c+c1}{\PYZsh{} 配置字体和全局参数}
+\PY{n}{py\PYZus{}path} \PY{o}{=} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{dirname}\PY{p}{(}\PY{n+nv+vm}{\PYZus{}\PYZus{}file\PYZus{}\PYZus{}}\PY{p}{)}
+\PY{n}{font\PYZus{}mapping} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{simkai.ttf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{KaiTi}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} 
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{simhei.ttf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{simhei}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}         
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{simfang.ttf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FangSong}\PY{l+s+s2}{\PYZdq{}}  
+\PY{p}{\PYZcb{}}
+\PY{n}{loaded\PYZus{}font\PYZus{}families} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Times New Roman}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{k}{for} \PY{n}{font\PYZus{}file}\PY{p}{,} \PY{n}{font\PYZus{}family} \PY{o+ow}{in} \PY{n}{font\PYZus{}mapping}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{font\PYZus{}path} \PY{o}{=} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{py\PYZus{}path}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{fonts}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{font\PYZus{}file}\PY{p}{)}
+    \PY{k}{if} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{exists}\PY{p}{(}\PY{n}{font\PYZus{}path}\PY{p}{)}\PY{p}{:}
+        \PY{n}{font\PYZus{}manager}\PY{o}{.}\PY{n}{fontManager}\PY{o}{.}\PY{n}{addfont}\PY{p}{(}\PY{n}{font\PYZus{}path}\PY{p}{)}
+        \PY{n}{loaded\PYZus{}font\PYZus{}families}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{font\PYZus{}family}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} break}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{font.family}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{loaded\PYZus{}font\PYZus{}families}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{axes.unicode\PYZus{}minus}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{k+kc}{False}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xtick.direction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{in}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ytick.direction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{in}\PY{l+s+s1}{\PYZsq{}}
+
+\PY{c+c1}{\PYZsh{} 计算拟合系数}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{fit}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{s}\PY{p}{,} \PY{n}{i}\PY{p}{,} \PY{n}{j}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}计算拟合系数和残差\PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{X} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{vstack}\PY{p}{(}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{ones}\PY{p}{(}\PY{n}{j} \PY{o}{\PYZhy{}} \PY{n}{i}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{log10}\PY{p}{(}\PY{n}{t}\PY{p}{[}\PY{n}{i}\PY{p}{:}\PY{n}{j}\PY{p}{]}\PY{p}{)}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{T}
+    \PY{n}{beta} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{lstsq}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{s}\PY{p}{[}\PY{n}{i}\PY{p}{:}\PY{n}{j}\PY{p}{]}\PY{p}{,} \PY{n}{rcond}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    \PY{n}{residuals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{(}\PY{n}{s}\PY{p}{[}\PY{n}{i}\PY{p}{:}\PY{n}{j}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{X} \PY{o}{@} \PY{n}{beta}\PY{p}{)} \PY{o}{*}\PY{o}{*} \PY{l+m+mi}{2}\PY{p}{)}
+    \PY{k}{return} \PY{n}{beta}\PY{p}{,} \PY{n}{residuals}
+
+\PY{c+c1}{\PYZsh{} 计算水文地质参数}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{calc\PYZus{}params}\PY{p}{(}\PY{n}{beta}\PY{p}{,} \PY{n}{Q}\PY{p}{,} \PY{n}{r}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}计算导水系数和贮水系数\PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{T} \PY{o}{=} \PY{l+m+mf}{0.183} \PY{o}{*} \PY{n}{Q} \PY{o}{/} \PY{n}{beta}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+    \PY{n}{t0} \PY{o}{=} \PY{l+m+mi}{10} \PY{o}{*}\PY{o}{*} \PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{beta}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{/} \PY{n}{beta}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+    \PY{n}{S} \PY{o}{=} \PY{l+m+mf}{2.25} \PY{o}{*} \PY{n}{T} \PY{o}{*} \PY{n}{t0} \PY{o}{/} \PY{n}{r}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} 
+    \PY{k}{return} \PY{n}{T}\PY{p}{,} \PY{n}{S}\PY{p}{,} \PY{n}{t0}
+
+\PY{c+c1}{\PYZsh{} 生成Word文档}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{create\PYZus{}report}\PY{p}{(}\PY{n}{T}\PY{p}{,} \PY{n}{S}\PY{p}{,} \PY{n}{residuals}\PY{p}{,} \PY{n}{fig}\PY{p}{,} \PY{n}{filename}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{report.docx}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}生成Word文档\PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{doc} \PY{o}{=} \PY{n}{Document}\PY{p}{(}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{add\PYZus{}heading}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Jacob 公式最小二乘法求参}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{level}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{add\PYZus{}paragraph}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{导水系数 T = }\PY{l+s+si}{\PYZob{}}\PY{n}{T}\PY{l+s+si}{:}\PY{l+s+s2}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ m²/min}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{add\PYZus{}paragraph}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{贮水系数 S = }\PY{l+s+si}{\PYZob{}}\PY{n}{S}\PY{l+s+si}{:}\PY{l+s+s2}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{add\PYZus{}paragraph}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{残差平方和 = }\PY{l+s+si}{\PYZob{}}\PY{n}{residuals}\PY{l+s+si}{:}\PY{l+s+s2}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    
+    \PY{n}{img\PYZus{}buffer} \PY{o}{=} \PY{n}{BytesIO}\PY{p}{(}\PY{p}{)}
+    \PY{n}{fig}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{n}{img\PYZus{}buffer}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{300}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{png}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{bbox\PYZus{}inches}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{tight}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{img\PYZus{}buffer}\PY{o}{.}\PY{n}{seek}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{add\PYZus{}picture}\PY{p}{(}\PY{n}{img\PYZus{}buffer}\PY{p}{,} \PY{n}{width}\PY{o}{=}\PY{n}{Inches}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+    
+    \PY{n}{report\PYZus{}buffer} \PY{o}{=} \PY{n}{BytesIO}\PY{p}{(}\PY{p}{)}
+    \PY{n}{doc}\PY{o}{.}\PY{n}{save}\PY{p}{(}\PY{n}{report\PYZus{}buffer}\PY{p}{)}
+    \PY{n}{report\PYZus{}buffer}\PY{o}{.}\PY{n}{seek}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+    \PY{k}{return} \PY{n}{report\PYZus{}buffer}
+
+\PY{c+c1}{\PYZsh{} 主程序}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{jacob\PYZus{}lstsq}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{st}\PY{o}{.}\PY{n}{markdown}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZsh{}\PYZsh{}\PYZsh{} Jacob公式最小二乘法拟合}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    
+    \PY{n}{t} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{9}\PY{p}{,} \PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{30}\PY{p}{,} \PY{l+m+mi}{40}\PY{p}{,} \PY{l+m+mi}{50}\PY{p}{,} \PY{l+m+mi}{60}\PY{p}{,} 
+                  \PY{l+m+mi}{90}\PY{p}{,} \PY{l+m+mi}{120}\PY{p}{,} \PY{l+m+mi}{150}\PY{p}{,} \PY{l+m+mi}{360}\PY{p}{,} \PY{l+m+mi}{550}\PY{p}{,} \PY{l+m+mi}{720}\PY{p}{]}\PY{p}{)}  \PY{c+c1}{\PYZsh{} min}
+    \PY{n}{s} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{2.5}\PY{p}{,} \PY{l+m+mf}{3.9}\PY{p}{,} \PY{l+m+mf}{6.1}\PY{p}{,} \PY{l+m+mf}{8.0}\PY{p}{,} \PY{l+m+mf}{10.6}\PY{p}{,} \PY{l+m+mf}{16.8}\PY{p}{,} \PY{l+m+mf}{20.0}\PY{p}{,} \PY{l+m+mf}{22.6}\PY{p}{,} \PY{l+m+mf}{24.7}\PY{p}{,} \PY{l+m+mf}{26.4}\PY{p}{,}
+                  \PY{l+m+mf}{30.4}\PY{p}{,} \PY{l+m+mf}{33.0}\PY{p}{,} \PY{l+m+mf}{35.0}\PY{p}{,} \PY{l+m+mf}{42.6}\PY{p}{,} \PY{l+m+mf}{44.0}\PY{p}{,} \PY{l+m+mf}{44.5}\PY{p}{]}\PY{p}{)} \PY{o}{/} \PY{l+m+mi}{100}   \PY{c+c1}{\PYZsh{} m}
+    \PY{n}{Q} \PY{o}{=} \PY{l+m+mf}{0.3667}  \PY{c+c1}{\PYZsh{} 528/1440, m³/min}
+    \PY{n}{r} \PY{o}{=} \PY{l+m+mi}{90}      \PY{c+c1}{\PYZsh{} m}
+
+    \PY{n}{data} \PY{o}{=} \PY{p}{[}\PY{n}{t}\PY{p}{,} \PY{n}{s}\PY{p}{,} \PY{p}{[}\PY{n}{Q}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{n}{r}\PY{p}{]}\PY{p}{]}
+    \PY{n}{transposed\PYZus{}data} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{n+nb}{list}\PY{p}{,} \PY{n}{zip\PYZus{}longest}\PY{p}{(}\PY{o}{*}\PY{n}{data}\PY{p}{,} \PY{n}{fillvalue}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+    \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{transposed\PYZus{}data}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{t}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{s}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Q}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} 上传数据}
+    \PY{n}{uploaded\PYZus{}file} \PY{o}{=} \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{file\PYZus{}uploader}\PY{p}{(}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{上传 CSV 文件}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} 
+        \PY{n+nb}{type}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+
+    \PY{k}{if} \PY{n}{uploaded\PYZus{}file}\PY{p}{:}
+        \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{n}{uploaded\PYZus{}file}\PY{p}{)}
+        \PY{n}{t} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{t}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}   \PY{c+c1}{\PYZsh{} 时间}
+        \PY{n}{s} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{s}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}   \PY{c+c1}{\PYZsh{} 降深}
+        \PY{n}{Q} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Q}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}  \PY{c+c1}{\PYZsh{} 抽水量}
+        \PY{n}{r} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}  \PY{c+c1}{\PYZsh{} 观测距离}
+    
+    \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CSV数据预览:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{dataframe}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{height}\PY{o}{=}\PY{l+m+mi}{200}\PY{p}{,} \PY{n}{width}\PY{o}{=}\PY{l+m+mi}{400}\PY{p}{,} \PY{n}{hide\PYZus{}index}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)} 
+
+    \PY{c+c1}{\PYZsh{} 选择数据范围}
+    \PY{n}{i}\PY{p}{,} \PY{n}{j} \PY{o}{=} \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{o}{.}\PY{n}{slider}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{选择所用的数据点范围}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{t}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{,} \PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{t}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+    
+    \PY{n}{help\PYZus{}txt} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\PY{l+s+s1}{        \PYZhy{} 通过滑块选定所用的数据点范围；}
+\PY{l+s+s1}{        \PYZhy{} 抽水初始阶段不满足 u 比较小的条件, 这些观测数据不能用;}
+\PY{l+s+s1}{        \PYZhy{} 长时间抽水, 降落漏斗扩展到边界, 后期降深变化平缓的观测数据不能用。}
+\PY{l+s+s1}{        \PYZhy{} 数据为 csv 格式, 需包含 4 列数据: 时间(min), 降深(m), 抽水量(m³/min), 观测距离(m); }
+\PY{l+s+s1}{        可下载预览中的数据来了解该文件格式。 }
+\PY{l+s+s1}{        }\PY{l+s+s1}{\PYZsq{}\PYZsq{}\PYZsq{}}
+    \PY{k}{with} \PY{n}{st}\PY{o}{.}\PY{n}{sidebar}\PY{p}{:}
+        \PY{n}{st}\PY{o}{.}\PY{n}{markdown}\PY{p}{(}\PY{n}{help\PYZus{}txt}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} 计算和绘图}
+    \PY{n}{beta}\PY{p}{,} \PY{n}{residuals} \PY{o}{=} \PY{n}{fit}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{s}\PY{p}{,} \PY{n}{i}\PY{p}{,} \PY{n}{j}\PY{p}{)}
+    \PY{n}{T}\PY{p}{,} \PY{n}{S}\PY{p}{,} \PY{n}{t0} \PY{o}{=} \PY{n}{calc\PYZus{}params}\PY{p}{(}\PY{n}{beta}\PY{p}{,} \PY{n}{Q}\PY{p}{,} \PY{n}{r}\PY{p}{)}
+    
+    \PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{set}\PY{p}{(}\PY{n}{xscale}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{xlabel}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{lg t\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ylabel}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}s\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{,} \PY{n}{which}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{major}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{,} \PY{n}{which}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{minor}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{)}
+    
+    \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{s}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{r*}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{观测值}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    
+    \PY{n}{t\PYZus{}} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{n}{t0}\PY{p}{,} \PY{n}{t}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+    \PY{n}{s\PYZus{}} \PY{o}{=} \PY{n}{beta}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{n}{beta}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{log10}\PY{p}{(}\PY{n}{t\PYZus{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t\PYZus{}}\PY{p}{,} \PY{n}{s\PYZus{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{g\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{拟合直线}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+    
+    \PY{n}{st}\PY{o}{.}\PY{n}{pyplot}\PY{p}{(}\PY{n}{fig}\PY{p}{)}
+    \PY{n}{st}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{T = }\PY{l+s+si}{\PYZob{}}\PY{n}{T}\PY{l+s+si}{:}\PY{l+s+s2}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ m²/min, S = }\PY{l+s+si}{\PYZob{}}\PY{n}{S}\PY{l+s+si}{:}\PY{l+s+s2}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}  
+    \PY{n}{st}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{residuals = }\PY{l+s+si}{\PYZob{}}\PY{n}{residuals}\PY{l+s+si}{:}\PY{l+s+s2}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} 生成Word文档}
+    \PY{k}{if} \PY{n}{st}\PY{o}{.}\PY{n}{button}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Word文档}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{:}
+        \PY{n}{report} \PY{o}{=} \PY{n}{create\PYZus{}report}\PY{p}{(}\PY{n}{T}\PY{p}{,} \PY{n}{S}\PY{p}{,} \PY{n}{residuals}\PY{p}{,} \PY{n}{fig}\PY{p}{)}
+        \PY{n}{st}\PY{o}{.}\PY{n}{download\PYZus{}button}\PY{p}{(}
+            \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{下载文档}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+            \PY{n}{data}\PY{o}{=}\PY{n}{report}\PY{p}{,}
+            \PY{n}{file\PYZus{}name}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{report.docx}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+            \PY{n}{mime}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{application/vnd.openxmlformats\PYZhy{}officedocument.wordprocessingml.document}\PY{l+s+s2}{\PYZdq{}}
+        \PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 运行程序}
+\PY{k}{if} \PY{n+nv+vm}{\PYZus{}\PYZus{}name\PYZus{}\PYZus{}} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZus{}\PYZus{}main\PYZus{}\PYZus{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+    \PY{n}{jacob\PYZus{}lstsq}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    运行 streamlit run main\_app.py
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{!}streamlit\PY{+w}{ }run\PY{+w}{ }main\PYZus{}app.py
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
