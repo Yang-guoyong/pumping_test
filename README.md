@@ -25,6 +25,10 @@ streamlit run main_app.py
 > - 可以生成 docx 格式文件下载。
 >   
 
+可访问 
+https://pumpingtest-yanggy1010.streamlit.app/
+运行。
+
 # 代码：
 
 ## 1\. 主程序
@@ -624,7 +628,3 @@ if __name__ == "__main__":
     inflection()
 ```
 
-# 运行程序
-if __name__ == "__main__":
-    inflection()
-```
